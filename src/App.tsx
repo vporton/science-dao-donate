@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { donationsAddress, donationsNetwork } from './config';
@@ -16,6 +16,9 @@ async function initCardAppDonation() {
 }
 
 function App() {
+  useEffect(() => {
+    document.title = 'Donations - World Science DAO';
+  }, []);
   return (
     <div className="App">
       <div className="mainWidget">
