@@ -13,6 +13,7 @@ async function initCardAppDonation() {
     userAddress: donationsAddress,
     hostApiKey: 'gd9nmr8grvvecoxerfstt3mapj35mbgcyb7krqcm',
   }).show();
+  return false;
 }
 
 function App() {
