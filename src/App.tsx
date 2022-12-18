@@ -30,7 +30,9 @@ function App() {
         <p>Credit card donations are tax-deductible, because they are considered as donations
           to 501(c)3 Victor Porton's Foundation that are immediately and fully transfered to World Science DAO.</p>
         <p><a href="https://science-dao.vporton.name" target="_top">Return to World Science DAO.</a></p>
-        <p><a href="https://github.com/vporton/science-dao-donate" target='_blank'><img src="github-mark.svg" width="16" height="16"/></a></p>
+        <p><a href="https://github.com/vporton/science-dao-donate" target='_blank' rel="noreferrer">
+          <img src="github-mark.svg" width="16" height="16" alt="GitHub"/></a>
+        </p>
       </div>
     </div>
   );
