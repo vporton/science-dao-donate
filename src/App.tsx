@@ -25,7 +25,7 @@ function App() {
         <p><strong>Donate by crypto or credit card.</strong></p>
         <p>To donate send xDai or any ERC-20 token to <code className="cryptoAddress">{donationsAddress}</code> {' '}
         on <span className="cryptoAddress">Gnosis</span> (formerly called <span className="cryptoAddress">Dai</span>) chain.</p>
-        <p><strong className="danger">Funds send to this address on any other chain, including main Ethereum chain will be irreversibly lost!</strong></p>
+        <p><strong className="danger">Funds sent to this address on any other chain, including main Ethereum chain, will be irreversibly lost!</strong></p>
         <p>You can first <a href="https://coinmarketcap.com/currencies/wxdai/markets/" target="markets">purchase wxDai</a> {' '}
           and then <a href="https://app.openocean.finance/CLASSIC#/XDAI/WXDAI/XDAI" target="markets">swap it for xDai</a>.</p>
         <p>Or <button onClick={initCardAppDonation}>donate by <strong>credit card</strong> or SEPA, etc.</button></p>
