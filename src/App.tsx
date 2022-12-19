@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
-import './App.css';
-import { donationsAddress, donationsNetwork } from './config';
+import { useEffect } from 'react';
+import { donationsAddress, donationsNetwork, rampApiKey } from './config';
 import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk';
+import './App.css';
 
 async function initCardAppDonation() {
   const logo = `${document.location.protocol}//${document.location.host}${document.location.pathname}logo.svg`;
@@ -10,7 +10,7 @@ async function initCardAppDonation() {
     hostLogoUrl: logo,
     swapAsset: donationsNetwork,
     userAddress: donationsAddress,
-    hostApiKey: 'gd9nmr8grvvecoxerfstt3mapj35mbgcyb7krqcm',
+    hostApiKey: rampApiKey,
   }).show();
   return false;
 }
