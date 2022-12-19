@@ -24,7 +24,7 @@ function App() {
       <div className="mainWidget">
         <h1>World Science DAO accepts donations</h1>
         <p><strong>Donate by crypto or credit card.</strong></p>
-        <p>To donate send xDai or any ERC-20 token to <code className="cryptoAddress">{donationsAddress}</code>
+        <p>To donate send xDai or any ERC-20 token to <code className="cryptoAddress">{donationsAddress}</code> {' '}
         on <span className="cryptoAddress">Gnosis</span> (formerly called <span className="cryptoAddress">Dai</span>) chain.</p>
         <p><strong className="danger">Funds send to this address on any other chain, including main Ethereum chain will be irreversibly lost!</strong></p>
         <p>You can first <a href="https://coinmarketcap.com/currencies/wxdai/markets/" target="markets">purchase wxDai</a> {' '}
