@@ -36,24 +36,16 @@ function DonateCryptoButton() {
   const { address } = useAccount();
   const { data: balanceData } = useBalance({ address }); // TODO: `useEffect`?
   const handleClickOpen = () => {
-    setOpen(true);
+    wagmiClient.provider.getGasPrice().then(gasPrice => {
+      const gasAmount = BigNumber.from(21000).mul(gasPrice).mul(BigNumber.from(130)).div(BigNumber.from(100)); // +30%
+      console.log('gasAmount:', formatEther(gasAmount));
+      setAmount(balanceData?.value.sub(gasAmount));
+      setOpen(true);
+    });
   };
-  function balanceMinusGas() {
-    return balanceData?.value.sub(21000); // for simple transfers, we assume contract has no hook here
-  }
   // TODO: In an unknown reason after I connect to provider, `amount` remains `undefined` despite of correct value of `balanceMinusGas()`.
   // const [amount, setAmount] = useState(balanceMinusGas()); // FIXME
   const [amount, setAmount] = useState(undefined as BigNumber | undefined);
-  useEffect(() => {
-    if (amount === undefined) {
-      setAmount(balanceMinusGas());
-      console.log('amount:', amount);
-    }
-  }, [balanceData]);
-  function balanceMinusGasFormatted() {
-    const balance = balanceMinusGas();
-    return balance !== undefined ? formatEther(balance as BigNumber) : undefined;
-  }
   function amountFormatted() {
     return amount !== undefined ? formatEther(amount as BigNumber) : undefined;
   }
