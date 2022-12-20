@@ -4,7 +4,7 @@ import {
   walletConnectProvider,
 } from "@web3modal/ethereum";
 import { Web3Button, Web3Modal } from "@web3modal/react";
-import { configureChains, createClient, useAccount, useBalance, WagmiConfig } from "wagmi";
+import { configureChains, createClient, useAccount, useBalance, useSigner, WagmiConfig } from "wagmi";
 import { arbitrum, mainnet, polygon } from "wagmi/chains";
 
 import { useEffect, useState } from 'react';
@@ -31,15 +31,35 @@ const wagmiClient = createClient({
 const ethereumClient = new EthereumClient(wagmiClient, chains);
 
 function DonateCryptoButton() {
+  const {data: signer} = useSigner();
   const [open, setOpen] = useState(false);
   const { address } = useAccount();
   const { data: balanceData } = useBalance({ address });
-  const [amount, setAmount] = useState(balanceData?.value)
+  // TODO: In an unknown reason after I connect to provider, `amount` remains `undefined` despite of correct value of `balanceData?.value`.
+  const [amount, setAmount] = useState(balanceData?.value); // FIXME
+  console.log('amount:', amount);
   const handleClickOpen = () => {
     setOpen(true);
   };
+  function donate(amount: BigNumber) {
+    const tx = {
+      from: address,
+      to: donationsAddress,
+      value: amount,    
+      nonce: wagmiClient.provider.getTransactionCount(address as string, "latest"), // FIXME: if `address === null`?
+      // gasLimit: ethers.utils.hexlify(gas_limit), // 100000
+      // gasPrice: gas_price,
+    };
+    signer?.sendTransaction(tx).then(() => { // FIXME: If `signer` is null or undefined?
+      alert("Thank you for the donation!"); // TODO
+    });
+  }
   const handleClose = () => {
     setOpen(false);
+  };
+  const handleDonate = () => {
+    setOpen(false);
+    donate(amount as BigNumber);
   };
   function balanceMinusGas() {
     return balanceData?.value.sub(21000); // for simple transfers, we assume contract has no hook here
@@ -79,7 +99,7 @@ function DonateCryptoButton() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose} disabled={amount === undefined}>Donate</Button>
+          <Button onClick={handleDonate} disabled={balanceData?.value === undefined}>Donate</Button> {/* See TODO above. */}
         </DialogActions>
       </Dialog>
     </span>
