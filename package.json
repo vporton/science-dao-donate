@@ -2,7 +2,7 @@
   "name": "science-dao-donate",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://vporton.github.io/science-dao-app",
+  "homepage": "https://vporton.github.io/science-dao-donate-app",
   "dependencies": {
     "@ramp-network/ramp-instant-sdk": "^4.0.1",
     "@testing-library/jest-dom": "^5.16.5",
