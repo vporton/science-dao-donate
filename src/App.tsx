@@ -7,14 +7,13 @@ import { Web3Button, Web3Modal } from "@web3modal/react";
 import { configureChains, createClient, useAccount, useBalance, useConnect, useSigner, WagmiConfig } from "wagmi";
 import { arbitrum, mainnet, polygon } from "wagmi/chains";
 
-import { useEffect, useState } from 'react';
-import { donationsAddress, donationsChainId, donationsChainIdHex, donationsCurrencyBlockExplorerUrls, donationsCurrencyDecimals, donationsCurrencyName, donationsCurrencyRpcUrls, donationsCurrencySymbol, donationsNetwork, donationsSwap, rampApiKey, walletConnectProjectId } from './config';
+import { useEffect, useRef, useState } from 'react';
+import { donationsAddress, donationsChainIdHex, donationsCurrencyBlockExplorerUrls, donationsCurrencyDecimals, donationsCurrencyName, donationsCurrencyRpcUrls, donationsCurrencySymbol, donationsNetwork, donationsSwap, rampApiKey, walletConnectProjectId } from './config';
 import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk';
 import './App.css';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
 import { formatEther, parseEther } from "ethers/lib/utils.js";
 import { BigNumber } from "ethers";
-import { connect, InjectedConnector } from "@wagmi/core";
 
 const chains = [arbitrum, mainnet, polygon]; // FIXME
 
@@ -176,11 +175,11 @@ function AppMainPart() {
       setDonationsChain();
     }
   }, [successfullyConnected]);
-  let cardWidgetInitialized = false;
+  let cardWidgetInitialized = useRef(false);
   useEffect(() => {
-    if (!cardWidgetInitialized) {
+    if (!cardWidgetInitialized.current) {
+      cardWidgetInitialized.current = true;
       initCardAppDonation().then(() => {});
-      cardWidgetInitialized = true;
     }
   }, []);
   return (
