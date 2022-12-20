@@ -4,11 +4,11 @@ import {
   walletConnectProvider,
 } from "@web3modal/ethereum";
 import { Web3Button, Web3Modal } from "@web3modal/react";
-import { configureChains, createClient, useAccount, useBalance, useSigner, WagmiConfig } from "wagmi";
+import { configureChains, createClient, useAccount, useBalance, useConnect, useSigner, WagmiConfig } from "wagmi";
 import { arbitrum, mainnet, polygon } from "wagmi/chains";
 
 import { useEffect, useState } from 'react';
-import { donationsAddress, donationsChainId, donationsChainIdHex, donationsCurrencyBlockExplorerUrls, donationsCurrencyDecimals, donationsCurrencyName, donationsCurrencyRpcUrls, donationsCurrencySymbol, donationsNetwork, rampApiKey, walletConnectProjectId } from './config';
+import { donationsAddress, donationsChainId, donationsChainIdHex, donationsCurrencyBlockExplorerUrls, donationsCurrencyDecimals, donationsCurrencyName, donationsCurrencyRpcUrls, donationsCurrencySymbol, donationsNetwork, donationsSwap, rampApiKey, walletConnectProjectId } from './config';
 import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk';
 import './App.css';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
@@ -18,7 +18,7 @@ import { connect, InjectedConnector } from "@wagmi/core";
 
 const chains = [arbitrum, mainnet, polygon]; // FIXME
 
-(async () => setDonationsChain())(); // TODO: It's a hack to call it here.
+// (async () => setDonationsChain())(); // TODO: It's a hack to call it here.
 
 // Wagmi client
 const { provider } = configureChains(chains, [
@@ -116,9 +116,11 @@ async function initCardAppDonation() {
   new RampInstantSDK({
     hostAppName: 'World Science DAO Donation',
     hostLogoUrl: logo,
-    swapAsset: donationsNetwork,
-    userAddress: donationsAddress,
+    swapAsset: donationsSwap,
+    // userAddress: donationsAddress,
     hostApiKey: rampApiKey,
+    variant: 'embedded-desktop',
+    containerNode: document.getElementById('rampContainer') as HTMLElement,
   }).show();
 }
 
@@ -157,31 +159,50 @@ async function setDonationsChain() {
     // handle other "switch" errors
     return;
   }
-  connect({
-    connector: new InjectedConnector(),
-    chainId: donationsChainId,
-  });
+  // It does not work when MetaMask isn't installed:
+  // connect({
+  //   connector: new InjectedConnector(),
+  //   chainId: donationsChainId,
+  // });
 }
 
 function AppMainPart() {
   // setDonationsChain().then(() => {});
   const { address } = useAccount();
   const { data: balanceData } = useBalance({ address });
+  const { isSuccess: successfullyConnected } = useConnect();
+  useEffect(() => {
+    if (successfullyConnected) {
+      setDonationsChain();
+    }
+  }, [successfullyConnected]);
+  let cardWidgetInitialized = false;
+  useEffect(() => {
+    if (!cardWidgetInitialized) {
+      initCardAppDonation().then(() => {});
+      cardWidgetInitialized = true;
+    }
+  }, []);
   return (
     <>
       <p>Connected wallet: <span style={{display: 'inline-block', verticalAlign: 'middle'}}><Web3Button /></span></p>
       <p>Funds on your wallet: {balanceData?.formatted} {balanceData?.symbol}</p>
       <h1>World Science DAO accepts donations</h1>
-      <p><strong className="danger">WRONG CHAIN</strong></p>
-      <p><strong>Donate by crypto or credit card.</strong></p>
+      <p><strong className="danger">Do not use DONATE button of this app, it has a bug leading to loss of funds.</strong></p>
       <p>To <span style={{display: 'inline-block'}}><DonateCryptoButton/></span> send xDai or any ERC-20 token to <code className="cryptoAddress">{donationsAddress}</code> {' '}
       on <span className="cryptoAddress">Gnosis</span> (formerly called <span className="cryptoAddress">Dai</span>) chain.</p>
       <p><strong className="danger">Funds sent to this address on any other chain, including main Ethereum chain, will be irreversibly lost!</strong></p>
-      <p>You can first <a href="https://coinmarketcap.com/currencies/wxdai/markets/" target="markets">purchase wxDai</a> {' '}
-        and then <a href="https://app.openocean.finance/CLASSIC#/XDAI/WXDAI/XDAI" target="markets">swap it for xDai</a>.</p>
-      <p>Or <button onClick={initCardAppDonation}>donate by <strong>credit card</strong> or SEPA, etc.</button></p>
-      <p>Credit card, SEPA, etc. donations are tax-deductible, because they are considered as donations
-        to 501(c)3 Victor Porton's Foundation that are immediately and fully transfered to World Science DAO.</p>
+      <p style={{textAlign: 'left'}}>Before donating xDai, you may need to buy xDai. First create an Ethereum account by clicking {' '}
+        <q>Connect wallet</q> above and choosing any of offered wallets.
+        There are <a href="https://www.coinbase.com/how-to-buy/xdaistable">several ways to buy xDai</a> to your Ethereum account:</p>
+      <ul>
+        <li>(Beginners' option) <a href="#rampContainer">Buy xDai by <strong>credit card</strong> or SEPA, etc.</a></li>
+        <li>(Requires some knowledge of crypto) You can first <a href="https://coinmarketcap.com/currencies/wxdai/markets/" target="markets">purchase wxDai</a> {' '}
+          and then <a href="https://app.openocean.finance/CLASSIC#/XDAI/WXDAI/XDAI" target="markets">swap it for xDai</a>.</li>
+        <li>(Requires expertise in using crypto exchanges) You can first {' '}
+          <a href="https://www.google.com/search?q=how+to+purchase+USDT" target="_blank">buy USDT</a> and then use {' '}
+          <a href="https://ascendex.com/en/cashtrade-spottrading/usdt/xdai" target="markets">AscendEX to exchange it for xDai.</a></li>
+      </ul>
       <p><a href="https://science-dao.vporton.name" target="_top">Return to World Science DAO.</a></p>
       <p><a href="https://github.com/vporton/science-dao-donate" target='_blank' rel="noreferrer">
         <img src="github-mark.svg" width="16" height="16" alt="GitHub"/></a>
@@ -205,6 +226,7 @@ function App() {
           ethereumClient={ethereumClient}
         />
       </div>
+      <div id="rampContainer" style={{height: "590px"}}></div>
     </div>
   );
 }

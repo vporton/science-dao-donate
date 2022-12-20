@@ -1,5 +1,6 @@
 export const donationsAddress = "0x61d5A4542Fc28703B4267Cad28020c5E193A628f";
 export const donationsNetwork = "Gnosis";
+export const donationsSwap = 'XDAI_XDAI';
 export const donationsChainId = 100; // Gnosis Chain
 export const donationsChainIdHex = '0x64'; // Gnosis Chain
 export const donationsCurrencyName = "xDai";

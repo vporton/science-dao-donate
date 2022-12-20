@@ -8,6 +8,10 @@
   max-width: 30em;
 }
 
+ul {
+  text-align: left;
+}
+
 h1 {
   color: darkgreen;
 }
