@@ -8,21 +8,24 @@ import { configureChains, createClient, useAccount, useBalance, useSigner, Wagmi
 import { arbitrum, mainnet, polygon } from "wagmi/chains";
 
 import { useEffect, useState } from 'react';
-import { donationsAddress, donationsNetwork, rampApiKey, walletConnectProjectId } from './config';
+import { donationsAddress, donationsChainId, donationsChainIdHex, donationsCurrencyBlockExplorerUrls, donationsCurrencyDecimals, donationsCurrencyName, donationsCurrencyRpcUrls, donationsCurrencySymbol, donationsNetwork, rampApiKey, walletConnectProjectId } from './config';
 import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk';
 import './App.css';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
 import { formatEther, parseEther } from "ethers/lib/utils.js";
 import { BigNumber } from "ethers";
+import { connect, InjectedConnector } from "@wagmi/core";
 
 const chains = [arbitrum, mainnet, polygon]; // FIXME
+
+(async () => setDonationsChain())(); // TODO: It's a hack to call it here.
 
 // Wagmi client
 const { provider } = configureChains(chains, [
   walletConnectProvider({ projectId: walletConnectProjectId }),
 ]);
 const wagmiClient = createClient({
-  autoConnect: true,
+  autoConnect: false,
   connectors: modalConnectors({ appName: "web3Modal", chains }),
   provider,
 });
@@ -106,7 +109,6 @@ function DonateCryptoButton() {
       </Dialog>
     </span>
   );
-
 }
 
 async function initCardAppDonation() {
@@ -120,7 +122,49 @@ async function initCardAppDonation() {
   }).show();
 }
 
+async function setDonationsChain() {
+  try {
+    await window.ethereum?.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId: donationsChainIdHex }],
+    });
+  } catch (switchError: any) {
+    // This error code indicates that the chain has not been added to MetaMask.
+    if (switchError.code === 4902) {
+      try {
+        await window.ethereum?.request({
+          method: 'wallet_addEthereumChain',
+          params: [
+            {
+              chainId: donationsChainIdHex,
+              chainName: donationsNetwork,
+              nativeCurrency: {
+                name: donationsCurrencyName,
+                symbol: donationsCurrencySymbol,
+                decimals: donationsCurrencyDecimals,
+              },
+              rpcUrls: donationsCurrencyRpcUrls,
+              blockExplorerUrls: donationsCurrencyBlockExplorerUrls,
+              iconUrls: undefined,
+            },
+          ],
+        });
+      } catch (addError: any) {
+        // handle "add" error
+        return;
+      }
+    }
+    // handle other "switch" errors
+    return;
+  }
+  connect({
+    connector: new InjectedConnector(),
+    chainId: donationsChainId,
+  });
+}
+
 function AppMainPart() {
+  // setDonationsChain().then(() => {});
   const { address } = useAccount();
   const { data: balanceData } = useBalance({ address });
   return (
