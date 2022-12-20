@@ -63,7 +63,7 @@ function DonateCryptoButton() {
             autoFocus
             margin="dense"
             id="name"
-            label="Amount ($)"
+            label={`Amount (${balanceData?.symbol})`}
             type="number"
             fullWidth
             variant="standard"
@@ -92,9 +92,12 @@ async function initCardAppDonation() {
 }
 
 function AppMainPart() {
+  const { address } = useAccount();
+  const { data: balanceData } = useBalance({ address });
   return (
     <>
       <p>Connected wallet: <span style={{display: 'inline-block', verticalAlign: 'middle'}}><Web3Button /></span></p>
+      <p>Funds on your wallet: {balanceData?.formatted} {balanceData?.symbol}</p>
       <h1>World Science DAO accepts donations</h1>
       <p><strong className="danger">WRONG CHAIN</strong></p>
       <p><strong>Donate by crypto or credit card.</strong></p>
