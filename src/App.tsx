@@ -34,13 +34,32 @@ function DonateCryptoButton() {
   const {data: signer} = useSigner();
   const [open, setOpen] = useState(false);
   const { address } = useAccount();
-  const { data: balanceData } = useBalance({ address });
-  // TODO: In an unknown reason after I connect to provider, `amount` remains `undefined` despite of correct value of `balanceData?.value`.
-  const [amount, setAmount] = useState(balanceData?.value); // FIXME
-  console.log('amount:', amount);
+  const { data: balanceData } = useBalance({ address }); // TODO: `useEffect`?
   const handleClickOpen = () => {
     setOpen(true);
   };
+  function balanceMinusGas() {
+    return balanceData?.value.sub(21000); // for simple transfers, we assume contract has no hook here
+  }
+  // TODO: In an unknown reason after I connect to provider, `amount` remains `undefined` despite of correct value of `balanceMinusGas()`.
+  // const [amount, setAmount] = useState(balanceMinusGas()); // FIXME
+  const [amount, setAmount] = useState(undefined as BigNumber | undefined);
+  useEffect(() => {
+    if (amount === undefined) {
+      setAmount(balanceMinusGas());
+      console.log('amount:', amount);
+    }
+  }, [balanceData]);
+  function balanceMinusGasFormatted() {
+    const balance = balanceMinusGas();
+    return balance !== undefined ? formatEther(balance as BigNumber) : undefined;
+  }
+  function amountFormatted() {
+    return amount !== undefined ? formatEther(amount as BigNumber) : undefined;
+  }
+  function isInputAmountValid(amount: string) {
+    return /\d+\.(\d+)?/.test(amount);
+  }
   function donate(amount: BigNumber) {
     const tx = {
       from: address,
@@ -61,16 +80,6 @@ function DonateCryptoButton() {
     setOpen(false);
     donate(amount as BigNumber);
   };
-  function balanceMinusGas() {
-    return balanceData?.value.sub(21000); // for simple transfers, we assume contract has no hook here
-  }
-  function balanceMinusGasFormatted() {
-    const balance = balanceMinusGas();
-    return balance !== undefined ? formatEther(balance as BigNumber) : undefined;
-  }
-  function isInputAmountValid(amount: string) {
-    return /\d+\.(\d+)?/.test(amount);
-  }
   return (
     <span>
       <Button
@@ -92,7 +101,8 @@ function DonateCryptoButton() {
             type="number"
             fullWidth
             variant="standard"
-            defaultValue={balanceMinusGasFormatted()}
+            // defaultValue={balanceMinusGasFormatted()}
+            value={amountFormatted()}
             onChange={event => setAmount(isInputAmountValid(event?.target.value) ? parseEther(event?.target.value) : undefined)}
           />
           </>
