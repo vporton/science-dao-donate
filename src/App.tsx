@@ -24,7 +24,7 @@ const { provider } = configureChains(chains, [
   walletConnectProvider({ projectId: walletConnectProjectId }),
 ]);
 const wagmiClient = createClient({
-  autoConnect: false,
+  autoConnect: true,
   connectors: modalConnectors({ appName: "web3Modal", chains }),
   provider,
 });
@@ -110,19 +110,6 @@ function DonateCryptoButton() {
   );
 }
 
-async function initCardAppDonation() {
-  const logo = `${document.location.protocol}//${document.location.host}${document.location.pathname}logo.svg`;
-  new RampInstantSDK({
-    hostAppName: 'World Science DAO Donation',
-    hostLogoUrl: logo,
-    swapAsset: donationsSwap,
-    // userAddress: donationsAddress,
-    hostApiKey: rampApiKey,
-    variant: 'embedded-desktop',
-    containerNode: document.getElementById('rampContainer') as HTMLElement,
-  }).show();
-}
-
 async function setDonationsChain() {
   try {
     await window.ethereum?.request({
@@ -181,31 +168,59 @@ function AppMainPart() {
       cardWidgetInitialized.current = true;
       initCardAppDonation().then(() => {});
     }
-  }, []);
+  }, [initCardAppDonation]);
+  function rampContainer() {
+    return document.getElementById('rampContainer') as HTMLElement;
+  }
+  async function initCardAppDonation() {
+    const logo = `${document.location.protocol}//${document.location.host}${document.location.pathname}logo.svg`;
+    new RampInstantSDK({
+      hostAppName: 'World Science DAO Donation',
+      hostLogoUrl: logo,
+      swapAsset: donationsSwap,
+      userAddress: address,
+      hostApiKey: rampApiKey,
+      variant: 'embedded-desktop',
+      containerNode: rampContainer(),
+    }).show();
+  }
+  useEffect(() => {
+    rampContainer().replaceChildren("");
+    initCardAppDonation();
+  }, [address, initCardAppDonation]);
   return (
     <>
-      <p>Connected wallet: <span style={{display: 'inline-block', verticalAlign: 'middle'}}><Web3Button /></span></p>
-      <p>Funds on your wallet: {balanceData?.formatted} {balanceData?.symbol}</p>
-      <h1>World Science DAO accepts donations</h1>
-      <p><strong className="danger">Do not use DONATE button of this app, it has a bug leading to loss of funds.</strong></p>
-      <p>To <span style={{display: 'inline-block'}}><DonateCryptoButton/></span> send xDai or any ERC-20 token to <code className="cryptoAddress">{donationsAddress}</code> {' '}
-      on <span className="cryptoAddress">Gnosis</span> (formerly called <span className="cryptoAddress">Dai</span>) chain.</p>
-      <p><strong className="danger">Funds sent to this address on any other chain, including main Ethereum chain, will be irreversibly lost!</strong></p>
-      <p style={{textAlign: 'left'}}>Before donating xDai, you may need to buy xDai. First create an Ethereum account by clicking {' '}
-        <q>Connect wallet</q> above and choosing any of offered wallets.
-        There are <a href="https://www.coinbase.com/how-to-buy/xdaistable">several ways to buy xDai</a> to your Ethereum account:</p>
-      <ul>
-        <li>(Beginners' option) <a href="#rampContainer">Buy xDai by <strong>credit card</strong> or SEPA, etc.</a></li>
-        <li>(Requires some knowledge of crypto) You can first <a href="https://coinmarketcap.com/currencies/wxdai/markets/" target="markets">purchase wxDai</a> {' '}
-          and then <a href="https://app.openocean.finance/CLASSIC#/XDAI/WXDAI/XDAI" target="markets">swap it for xDai</a>.</li>
-        <li>(Requires expertise in using crypto exchanges) You can first {' '}
-          <a href="https://www.google.com/search?q=how+to+purchase+USDT" target="_blank">buy USDT</a> and then use {' '}
-          <a href="https://ascendex.com/en/cashtrade-spottrading/usdt/xdai" target="markets">AscendEX to exchange it for xDai.</a></li>
-      </ul>
-      <p><a href="https://science-dao.vporton.name" target="_top">Return to World Science DAO.</a></p>
-      <p><a href="https://github.com/vporton/science-dao-donate" target='_blank' rel="noreferrer">
-        <img src="github-mark.svg" width="16" height="16" alt="GitHub"/></a>
-      </p>
+      <div className="mainWidget">
+        <p>Connected wallet: <span style={{display: 'inline-block', verticalAlign: 'middle'}}><Web3Button /></span></p>
+        <p>Funds on your wallet: {balanceData?.formatted} {balanceData?.symbol}</p>
+        <h1>World Science DAO accepts donations</h1>
+        <p><strong className="danger">Do not use DONATE button of this app, it has a bug leading to loss of funds.</strong></p>
+        <p>To <span style={{display: 'inline-block'}}><DonateCryptoButton/></span> send xDai or any ERC-20 token to <code className="cryptoAddress">{donationsAddress}</code> {' '}
+        on <span className="cryptoAddress">Gnosis</span> (formerly called <span className="cryptoAddress">Dai</span>) chain.</p>
+        <p><strong className="danger">Funds sent to this address on any other chain, including main Ethereum chain, will be irreversibly lost!</strong></p>
+        <p style={{textAlign: 'left'}}>Before donating xDai, you may need to buy xDai. First create an Ethereum account by clicking {' '}
+          <q>Connect wallet</q> above and choosing any of offered wallets.
+          There are <a href="https://www.coinbase.com/how-to-buy/xdaistable">several ways to buy xDai</a> to your Ethereum account:</p>
+        <ul>
+          <li>(Beginners' option) <a href="#rampContainer">Buy xDai by <strong>credit card</strong> or SEPA, etc.</a></li>
+          <li>(Requires some knowledge of crypto) You can first <a href="https://coinmarketcap.com/currencies/wxdai/markets/" target="markets">purchase wxDai</a> {' '}
+            and then <a href="https://app.openocean.finance/CLASSIC#/XDAI/WXDAI/XDAI" target="markets">swap it for xDai</a>.</li>
+          <li>(Requires expertise in using crypto exchanges) You can first {' '}
+            <a href="https://www.google.com/search?q=how+to+purchase+USDT" target="_blank" rel="noreferrer">buy USDT</a> and then use {' '}
+            <a href="https://ascendex.com/en/cashtrade-spottrading/usdt/xdai" target="markets">AscendEX to exchange it for xDai.</a></li>
+        </ul>
+        { address !== undefined ? (
+          <p><em>Because you connected your crypto wallet, purchased xDai will go to that account, you don't need to enter a crypto address
+            while purchasing. Don't forget to donate after purchasing.</em></p>
+        ) : "" }
+      </div>
+      <div id="rampContainer" style={{height: "590px"}}></div>
+      <div className="mainWidget">
+        <p><a href="https://science-dao.vporton.name" target="_top">Return to World Science DAO.</a></p>
+        <p><a href="https://github.com/vporton/science-dao-donate" target='_blank' rel="noreferrer">
+          <img src="github-mark.svg" width="16" height="16" alt="GitHub"/></a>
+        </p>
+      </div>
     </>
   );
 }
@@ -216,16 +231,13 @@ function App() {
   }, []);
   return (
     <div className="App">
-      <div className="mainWidget">
-        <WagmiConfig client={wagmiClient}>
-          <AppMainPart/>
-        </WagmiConfig>
-        <Web3Modal
-          projectId={walletConnectProjectId}
-          ethereumClient={ethereumClient}
-        />
-      </div>
-      <div id="rampContainer" style={{height: "590px"}}></div>
+      <WagmiConfig client={wagmiClient}>
+        <AppMainPart/>
+      </WagmiConfig>
+      <Web3Modal
+        projectId={walletConnectProjectId}
+        ethereumClient={ethereumClient}
+      />
     </div>
   );
 }
