@@ -195,9 +195,10 @@ function AppMainPart() {
         <p>Funds on your wallet: {balanceData?.formatted} {balanceData?.symbol}</p>
         <h1>World Science DAO accepts donations</h1>
         {correctChain() ? "" : <p><span className="danger">Wrong chain selected, should be {donationsNetwork} chain.</span></p>}
-        <p>To <span style={{display: 'inline-block'}}><DonateCryptoButton/></span> send xDai or any ERC-20 token to <code className="cryptoAddress">{donationsAddress}</code> {' '}
+        <p>To donate send xDai or any ERC-20 token to <code className="cryptoAddress">{donationsAddress}</code> {' '}
         on <span className="cryptoAddress">Gnosis</span> (formerly called <span className="cryptoAddress">Dai</span>) chain.</p>
         <p><strong className="danger">Funds sent to this address on any other chain, including main Ethereum chain, will be irreversibly lost!</strong></p>
+        <p>To send xDai to correct chain and correct address you can use <span style={{display: 'inline-block'}}><DonateCryptoButton/></span> button.</p>
         <p style={{textAlign: 'left'}}>Before donating xDai, you may need to buy xDai. First create an Ethereum account by clicking {' '}
           <q>Connect wallet</q> above and choosing any of offered wallets.
           There are <a href="https://www.coinbase.com/how-to-buy/xdaistable">several ways to buy xDai</a> to your Ethereum account:</p>
