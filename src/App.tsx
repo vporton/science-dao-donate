@@ -41,6 +41,7 @@ function DonateCryptoButton() {
     return chain?.network === donationsNetworkName;
   }
   const handleClickOpen = () => {
+    // FIXME: getGasPrice() is sometimes slow, user may click the button several times and open several dialogs.
     wagmiClient.provider.getGasPrice().then(gasPrice => {
       const gasAmount = BigNumber.from(21000).mul(gasPrice).mul(BigNumber.from(130)).div(BigNumber.from(100)); // +30%
       console.log('gasAmount:', formatEther(gasAmount));
