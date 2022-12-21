@@ -168,6 +168,7 @@ function AppMainPart() {
   }, [successfullyConnected]);
   useEffect(() => {
     async function initCardAppDonation() {
+      rampContainer().replaceChildren("");
       const logo = `${document.location.protocol}//${document.location.host}${document.location.pathname}logo.svg`;
       new RampInstantSDK({
         hostAppName: 'World Science DAO Donation',
@@ -175,11 +176,10 @@ function AppMainPart() {
         swapAsset: donationsSwap,
         userAddress: address,
         hostApiKey: rampApiKey,
-        variant: 'embedded-desktop',
+        variant: 'embedded-desktop', // window.innerWidth >= 895 ? 'embedded-desktop' : 'embedded-mobile', // 'embedded-mobile' does not work
         containerNode: rampContainer(),
       }).show();
     }
-    rampContainer().replaceChildren("");
     initCardAppDonation().then(() => {}); // FIXME: called two times
   }, [address]);
   function rampContainer() {
