@@ -6,7 +6,7 @@ import {
 import { Web3Button, Web3Modal } from "@web3modal/react";
 import { configureChains, createClient, useAccount, useBalance, useConnect, useNetwork, useSigner, WagmiConfig } from "wagmi";
 import { gnosis } from "@wagmi/chains";
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { donationsAddress, donationsChainIdHex, donationsCurrencyBlockExplorerUrls, donationsCurrencyDecimals, donationsCurrencyName, donationsCurrencyRpcUrls, donationsCurrencySymbol, donationsNetwork, donationsNetworkName, donationsSwap, rampApiKey, walletConnectProjectId } from './config';
 import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk';
 import './App.css';
@@ -37,7 +37,7 @@ function DonateCryptoButton() {
   const { address } = useAccount();
   const { data: balanceData } = useBalance({ address }); // TODO: `useEffect`?
   const { chain } = useNetwork();
-  function correctChain() {
+  function correctChain() { // duplicate code
     return chain?.network === donationsNetworkName;
   }
   const handleClickOpen = () => {
@@ -160,43 +160,41 @@ function AppMainPart() {
   const { address } = useAccount();
   const { data: balanceData } = useBalance({ address });
   const { isSuccess: successfullyConnected } = useConnect();
+  const { chain } = useNetwork();
   useEffect(() => {
     if (successfullyConnected) {
       setDonationsChain();
     }
   }, [successfullyConnected]);
-  let cardWidgetInitialized = useRef(false);
   useEffect(() => {
-    if (!cardWidgetInitialized.current) {
-      cardWidgetInitialized.current = true;
-      initCardAppDonation().then(() => {});
+    async function initCardAppDonation() {
+      const logo = `${document.location.protocol}//${document.location.host}${document.location.pathname}logo.svg`;
+      new RampInstantSDK({
+        hostAppName: 'World Science DAO Donation',
+        hostLogoUrl: logo,
+        swapAsset: donationsSwap,
+        userAddress: address,
+        hostApiKey: rampApiKey,
+        variant: 'embedded-desktop',
+        containerNode: rampContainer(),
+      }).show();
     }
-  }, [initCardAppDonation]);
+    rampContainer().replaceChildren("");
+    initCardAppDonation().then(() => {}); // FIXME: called two times
+  }, [address]);
   function rampContainer() {
     return document.getElementById('rampContainer') as HTMLElement;
   }
-  async function initCardAppDonation() {
-    const logo = `${document.location.protocol}//${document.location.host}${document.location.pathname}logo.svg`;
-    new RampInstantSDK({
-      hostAppName: 'World Science DAO Donation',
-      hostLogoUrl: logo,
-      swapAsset: donationsSwap,
-      userAddress: address,
-      hostApiKey: rampApiKey,
-      variant: 'embedded-desktop',
-      containerNode: rampContainer(),
-    }).show();
+  function correctChain() { // duplicate code
+    return chain?.network === donationsNetworkName;
   }
-  useEffect(() => {
-    rampContainer().replaceChildren("");
-    initCardAppDonation();
-  }, [address, initCardAppDonation]);
   return (
     <>
       <div className="mainWidget">
         <p>Connected wallet: <span style={{display: 'inline-block', verticalAlign: 'middle'}}><Web3Button /></span></p>
         <p>Funds on your wallet: {balanceData?.formatted} {balanceData?.symbol}</p>
         <h1>World Science DAO accepts donations</h1>
+        {correctChain() ? "" : <p><span className="danger">Wrong chain selected, should be {donationsNetwork} chain.</span></p>}
         <p>To <span style={{display: 'inline-block'}}><DonateCryptoButton/></span> send xDai or any ERC-20 token to <code className="cryptoAddress">{donationsAddress}</code> {' '}
         on <span className="cryptoAddress">Gnosis</span> (formerly called <span className="cryptoAddress">Dai</span>) chain.</p>
         <p><strong className="danger">Funds sent to this address on any other chain, including main Ethereum chain, will be irreversibly lost!</strong></p>
