@@ -6,6 +6,8 @@
   display: inline-block;
   text-align: center;
   max-width: 30em;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
 }
 
 ul {

@@ -176,7 +176,7 @@ function AppMainPart() {
         swapAsset: donationsSwap,
         userAddress: address,
         hostApiKey: rampApiKey,
-        variant: 'embedded-desktop', // window.innerWidth >= 895 ? 'embedded-desktop' : 'embedded-mobile', // 'embedded-mobile' does not work
+        variant: window.innerWidth >= 895 ? 'embedded-desktop' : 'embedded-mobile',
         containerNode: rampContainer(),
       }).show();
     }
@@ -216,7 +216,7 @@ function AppMainPart() {
             while purchasing. Don't forget to donate after purchasing.</em></p>
         ) : "" }
       </div>
-      <div id="rampContainer" style={{height: "590px"}}></div>
+      <div id="rampContainer" style={{height: "667px"}}></div> {/* minimum height on mobile */}
       <div className="mainWidget">
         <p><a href="https://science-dao.vporton.name" target="_top">Return to World Science DAO.</a></p>
         <p><a href="https://github.com/vporton/science-dao-donate" target='_blank' rel="noreferrer">
