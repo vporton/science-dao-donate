@@ -4,18 +4,17 @@ import {
   walletConnectProvider,
 } from "@web3modal/ethereum";
 import { Web3Button, Web3Modal } from "@web3modal/react";
-import { configureChains, createClient, useAccount, useBalance, useConnect, useSigner, WagmiConfig } from "wagmi";
-import { arbitrum, mainnet, polygon } from "wagmi/chains";
-
+import { configureChains, createClient, useAccount, useBalance, useConnect, useNetwork, useSigner, WagmiConfig } from "wagmi";
+import { gnosis } from "@wagmi/chains";
 import { useEffect, useRef, useState } from 'react';
-import { donationsAddress, donationsChainIdHex, donationsCurrencyBlockExplorerUrls, donationsCurrencyDecimals, donationsCurrencyName, donationsCurrencyRpcUrls, donationsCurrencySymbol, donationsNetwork, donationsSwap, rampApiKey, walletConnectProjectId } from './config';
+import { donationsAddress, donationsChainIdHex, donationsCurrencyBlockExplorerUrls, donationsCurrencyDecimals, donationsCurrencyName, donationsCurrencyRpcUrls, donationsCurrencySymbol, donationsNetwork, donationsNetworkName, donationsSwap, rampApiKey, walletConnectProjectId } from './config';
 import { RampInstantSDK } from '@ramp-network/ramp-instant-sdk';
 import './App.css';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
 import { formatEther, parseEther } from "ethers/lib/utils.js";
 import { BigNumber } from "ethers";
 
-const chains = [arbitrum, mainnet, polygon]; // FIXME
+const chains = [gnosis]; // TODO: Make configurable
 
 // (async () => setDonationsChain())(); // TODO: It's a hack to call it here.
 
@@ -37,6 +36,10 @@ function DonateCryptoButton() {
   const [open, setOpen] = useState(false);
   const { address } = useAccount();
   const { data: balanceData } = useBalance({ address }); // TODO: `useEffect`?
+  const { chain } = useNetwork();
+  function correctChain() {
+    return chain?.network === donationsNetworkName;
+  }
   const handleClickOpen = () => {
     wagmiClient.provider.getGasPrice().then(gasPrice => {
       const gasAmount = BigNumber.from(21000).mul(gasPrice).mul(BigNumber.from(130)).div(BigNumber.from(100)); // +30%
@@ -79,7 +82,7 @@ function DonateCryptoButton() {
       <Button
         onClick={handleClickOpen}
         variant='contained'
-        disabled={address === undefined}
+        disabled={address === undefined || !correctChain()}
       >
         donate
       </Button>
@@ -103,7 +106,7 @@ function DonateCryptoButton() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleDonate} disabled={balanceData?.value === undefined}>Donate</Button> {/* See TODO above. */}
+          <Button onClick={handleDonate} disabled={balanceData?.value === undefined || !correctChain()}>Donate</Button> {/* See TODO above. */}
         </DialogActions>
       </Dialog>
     </span>
@@ -194,7 +197,6 @@ function AppMainPart() {
         <p>Connected wallet: <span style={{display: 'inline-block', verticalAlign: 'middle'}}><Web3Button /></span></p>
         <p>Funds on your wallet: {balanceData?.formatted} {balanceData?.symbol}</p>
         <h1>World Science DAO accepts donations</h1>
-        <p><strong className="danger">Do not use DONATE button of this app, it has a bug leading to loss of funds.</strong></p>
         <p>To <span style={{display: 'inline-block'}}><DonateCryptoButton/></span> send xDai or any ERC-20 token to <code className="cryptoAddress">{donationsAddress}</code> {' '}
         on <span className="cryptoAddress">Gnosis</span> (formerly called <span className="cryptoAddress">Dai</span>) chain.</p>
         <p><strong className="danger">Funds sent to this address on any other chain, including main Ethereum chain, will be irreversibly lost!</strong></p>
