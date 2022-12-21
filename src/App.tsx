@@ -201,7 +201,8 @@ function AppMainPart() {
         <p>To send xDai to correct chain and correct address you can use <span style={{display: 'inline-block'}}><DonateCryptoButton/></span> button.</p>
         <p style={{textAlign: 'left'}}>Before donating xDai, you may need to buy xDai. First create an Ethereum account by clicking {' '}
           <q>Connect wallet</q> above and choosing any of offered wallets.
-          There are <a href="https://www.coinbase.com/how-to-buy/xdaistable">several ways to buy xDai</a> to your Ethereum account:</p>
+          There are <a href="https://www.coinbase.com/how-to-buy/xdaistable" target='_blank' rel="noreferrer">several ways to buy xDai</a> {' '}
+          to your Ethereum account:</p>
         <ul>
           <li>(Beginners' option) <a href="#rampContainer">Buy xDai by <strong>credit card</strong> or SEPA, etc.</a></li>
           <li>(Requires some knowledge of crypto) You can first <a href="https://coinmarketcap.com/currencies/wxdai/markets/" target="markets">purchase wxDai</a> {' '}
