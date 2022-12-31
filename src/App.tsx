@@ -208,7 +208,7 @@ function AppMainPart() {
         <p>Connected wallet: <span style={{display: 'inline-block', verticalAlign: 'middle'}}><Web3Button /></span></p>
         <p>Funds on your wallet: {balanceData?.formatted} {balanceData?.symbol}</p>
         <h1>World Science DAO accepts donations</h1>
-        {correctChain() ? "" : <p><span className="danger">Wrong chain (or no chain) selected, should be {donationsNetwork} chain.</span></p>}
+        {correctChain() || !chain ? "" : <p><span className="danger">Wrong chain selected, should be {donationsNetwork} chain.</span></p>}
         <p>To donate send xDai or any ERC-20 token to <code className="cryptoAddress">{donationsAddress}</code> {' '}
         on <span className="cryptoAddress">Gnosis</span> (formerly called <span className="cryptoAddress">Dai</span>) chain.</p>
         <p><strong className="danger">Funds sent to this address on any other chain, including main Ethereum chain, will be irreversibly lost!</strong></p>
