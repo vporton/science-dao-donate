@@ -162,6 +162,19 @@ function AppMainPart() {
   const { data: balanceData } = useBalance({ address });
   const { isSuccess: successfullyConnected } = useConnect();
   const { chain } = useNetwork();
+  const [innerWidth, setInnerWidth] = useState(window.innerWidth);
+
+  const resizeWindow=()=>{
+    setInnerWidth(window.innerWidth)
+  };
+
+  useEffect(()=>{
+    window.addEventListener('resize',resizeWindow);
+    return ()=>{
+      window.removeEventListener('resize',resizeWindow);
+    }
+  },[]);
+
   useEffect(() => {
     if (successfullyConnected) {
       setDonationsChain();
@@ -182,7 +195,7 @@ function AppMainPart() {
       }).show();
     }
     initCardAppDonation().then(() => {}); // FIXME: called two times
-  }, [address]);
+  }, [address,innerWidth]);
   function rampContainer() {
     return document.getElementById('rampContainer') as HTMLElement;
   }
