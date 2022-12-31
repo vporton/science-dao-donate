@@ -207,7 +207,7 @@ function AppMainPart() {
       <div className="mainWidget">
         <p>Connected wallet: <span style={{display: 'inline-block', verticalAlign: 'middle'}}><Web3Button /></span></p>
         <p>Funds on your wallet: {balanceData?.formatted} {balanceData?.symbol}</p>
-        <h1>World Science DAO accepts donations</h1>
+        <h1><a href="https://science-dao.vporton.name" style={{color: 'inherit'}}>World Science DAO</a> accepts donations</h1>
         {correctChain() || !chain ? "" : <p><span className="danger">Wrong chain selected, should be {donationsNetwork} chain.</span></p>}
         <p>To donate send xDai or any ERC-20 token to <code className="cryptoAddress">{donationsAddress}</code> {' '}
         on <span className="cryptoAddress">Gnosis</span> (formerly called <span className="cryptoAddress">Dai</span>) chain.</p>
