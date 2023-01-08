@@ -13,6 +13,7 @@ import './App.css';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
 import { formatEther, parseEther } from "ethers/lib/utils.js";
 import { BigNumber } from "ethers";
+import DonorBox from './DonorBox';
 
 const chains = [gnosis]; // TODO: Make configurable
 
@@ -205,9 +206,12 @@ function AppMainPart() {
   return (
     <>
       <div className="mainWidget">
+        <h1><a href="https://science-dao.vporton.name" style={{color: 'inherit'}}>World Science DAO</a> accepts donations</h1>
+        <p>You can skip <a href="#crypto">safety, reliability, and low fees of crypto</a> and donate by a credit card:</p>
+        <DonorBox/>
+        <p id="crypto">Or donate by crypto:</p>
         <p>Connected wallet: <span style={{display: 'inline-block', verticalAlign: 'middle'}}><Web3Button /></span></p>
         <p>Funds on your wallet: {balanceData?.formatted} {balanceData?.symbol}</p>
-        <h1><a href="https://science-dao.vporton.name" style={{color: 'inherit'}}>World Science DAO</a> accepts donations</h1>
         {correctChain() || !chain ? "" : <p><span className="danger">Wrong chain selected, should be {donationsNetwork} chain.</span></p>}
         <p>To donate send xDai or any ERC-20 token to <code className="cryptoAddress">{donationsAddress}</code> {' '}
         on <span className="cryptoAddress">Gnosis</span> (formerly called <span className="cryptoAddress">Dai</span>) chain.</p>
