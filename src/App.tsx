@@ -163,42 +163,22 @@ function AppMainPart() {
   const { data: balanceData } = useBalance({ address });
   const { isSuccess: successfullyConnected } = useConnect();
   const { chain } = useNetwork();
-  const [innerWidth, setInnerWidth] = useState(window.innerWidth);
-
-  const resizeWindow=()=>{
-    setInnerWidth(window.innerWidth)
-  };
-
-  useEffect(()=>{
-    window.addEventListener('resize',resizeWindow);
-    return ()=>{
-      window.removeEventListener('resize',resizeWindow);
-    }
-  },[]);
 
   useEffect(() => {
     if (successfullyConnected) {
       setDonationsChain();
     }
   }, [successfullyConnected]);
-  useEffect(() => {
-    async function initCardAppDonation() {
-      rampContainer().replaceChildren("");
-      const logo = `${document.location.protocol}//${document.location.host}${document.location.pathname}logo.svg`;
-      new RampInstantSDK({
-        hostAppName: 'World Science DAO Donation',
-        hostLogoUrl: logo,
-        swapAsset: donationsSwap,
-        userAddress: address,
-        hostApiKey: rampApiKey,
-        variant: window.innerWidth >= 895 ? 'embedded-desktop' : 'embedded-mobile',
-        containerNode: rampContainer(),
-      }).show();
-    }
-    initCardAppDonation().then(() => {}); // FIXME: called two times
-  }, [address,innerWidth]);
-  function rampContainer() {
-    return document.getElementById('rampContainer') as HTMLElement;
+  async function initCardAppDonation() {
+    const logo = `${document.location.protocol}//${document.location.host}${document.location.pathname}logo.svg`;
+    new RampInstantSDK({
+      hostAppName: 'World Science DAO Donation',
+      hostLogoUrl: logo,
+      swapAsset: donationsSwap,
+      userAddress: address,
+      hostApiKey: rampApiKey,
+      variant: 'auto',
+    }).show();
   }
   function correctChain() { // duplicate code
     return chain?.network === donationsNetworkName;
@@ -223,19 +203,19 @@ function AppMainPart() {
           There are <a href="https://www.coinbase.com/how-to-buy/xdaistable" target='_blank' rel="noreferrer">several ways to buy xDai</a> {' '}
           to your Ethereum account:</p>
         <ul>
-          <li>(Beginners' option) <a href="#rampContainer">Buy xDai by <strong>credit card</strong> or SEPA, etc.</a></li>
+          <li>(Beginners' option) <Button variant='contained' onClick={initCardAppDonation}>Buy xDai by <strong>credit card</strong> or SEPA, etc.</Button>
+            { address !== undefined ? (
+              <>{" "}<em>Because you connected your crypto wallet, purchased xDai will go to that account, you don't need to enter a crypto address
+                while purchasing. Don't forget to donate after purchasing.</em></>
+            ) : "" }
+          </li>
           <li>(Requires some knowledge of crypto) You can first <a href="https://coinmarketcap.com/currencies/wxdai/markets/" target="markets">purchase wxDai</a> {' '}
             and then <a href="https://app.openocean.finance/CLASSIC#/XDAI/WXDAI/XDAI" target="markets">swap it for xDai</a>.</li>
           <li>(Requires expertise in using crypto exchanges) You can first {' '}
             <a href="https://www.google.com/search?q=how+to+purchase+USDT" target="_blank" rel="noreferrer">buy USDT</a> and then use {' '}
             <a href="https://ascendex.com/en/cashtrade-spottrading/usdt/xdai" target="markets">AscendEX to exchange it for xDai.</a></li>
         </ul>
-        { address !== undefined ? (
-          <p><em>Because you connected your crypto wallet, purchased xDai will go to that account, you don't need to enter a crypto address
-            while purchasing. Don't forget to donate after purchasing.</em></p>
-        ) : "" }
       </div>
-      <div id="rampContainer" style={{height: "667px"}}></div> {/* minimum height on mobile */}
       <div className="mainWidget">
         <p><a href="https://science-dao.vporton.name" target="_top">Return to World Science DAO.</a></p>
         <p><a href="https://github.com/vporton/science-dao-donate" target='_blank' rel="noreferrer">
