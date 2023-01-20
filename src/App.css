@@ -1,22 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&display=swap');
+
+body {
+  font-family: 'Josefin Sans', sans-serif;
+}
 .App {
-  text-align: center;
-  background-color: #cfc;
+  /* text-align: center; */
+  background-color: #05396b;
+  display: flex; 
+  flex-direction: column;
+}
+
+p , li {
+  color: #fff;
+}
+
+a {
+  color: #5cdb94;
 }
 
 .mainWidget {
   display: inline-block;
-  text-align: center;
-  max-width: 30em;
-  margin-left: 0.5em;
-  margin-right: 0.5em;
+  /* text-align: center; */
+  max-width: 100%;
+  /* margin-left: 0.5em;
+  margin-right: 0.5em; */
+  margin: auto;
+}
+
+.main {
+  padding: 50px 0;
+}
+
+.container {
+   width: 75%;
+   margin: auto;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   flex-wrap: wrap;
+}
+
+.container .col {
+  width: 50%;
+}
+
+@media only screen and (max-width: 600px) {
+  .container .col {
+    width: 100%;
+  }
+  .container {
+    width: 90%;
+  }
+
+  .mainHeading p {
+    display: block !important;
+  }
+  .mainHeading h1 {
+    margin-bottom: 0px !important;
+  }
+}
+
+@media only screen and (max-width: 810px) {
+  .container .col {
+    width: 100%;
+  }
+}
+
+
+.mainHeading {
+  /* border-bottom: 1px solid #389583; */
+  margin-bottom: 1rem;
+  padding: 1rem 0;
+  
+  background-color: #063058;
+}
+
+.mainHeading p {
+  display: none;
+}
+
+
+.mainHeading h1 {
+   margin-bottom: 1rem;
+   color: #fff;
+   font-size: 32px;
+}
+.mainHeading p {
+  font-size: 14px;
+  color: #fff;
+}
+
+.mainHeading p a {
+  color: #5cdb94;
+}
+
+.description p {
+  color: #fff;
+}
+
+.donation-widget.tabs {
+  width: 100% !important;
 }
 
 ul {
   text-align: left;
 }
-
-h1 {
-  color: darkgreen;
+ul li {
+  margin-bottom: 1rem;
 }
 
 .danger {
@@ -24,6 +114,30 @@ h1 {
 }
 
 .cryptoAddress {
-  color: magenta;
+  color: #ff75ff;
   font-size: smaller;
+}
+
+#crypto {
+    font-size: 32px;
+    margin: 0;
+    margin-bottom: 3rem;
+    color: #5cdb94;
+}
+
+.css-sghohy-MuiButtonBase-root-MuiButton-root.Mui-disabled {
+  color: rgb(115, 115, 115) !important;
+  box-shadow: none;
+  background-color: rgb(191, 191, 191) !important;
+}
+
+
+.main-footer {
+  /* border-top: 1px solid #389583; */
+   padding: 1rem 0;
+   background-color: #063058;
+}
+.main-footer p a {
+  text-decoration: none;
+  color: #fff;
 }

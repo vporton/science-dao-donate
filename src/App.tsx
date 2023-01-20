@@ -185,42 +185,59 @@ function AppMainPart() {
   }
   return (
     <>
-      <div className="mainWidget">
-        <h1><a href="https://science-dao.vporton.name" style={{color: 'inherit'}}>World Science DAO</a> accepts donations</h1>
-        <p>You can skip <a href="#crypto">safety, reliability, and low fees of crypto</a> and donate by a credit card:</p>
-        <DonorBox/>
-        <p id="crypto">Or donate by crypto:</p>
-        <p>Connected wallet: <span style={{display: 'inline-block', verticalAlign: 'middle'}}><Web3Button /></span></p>
-        <p>Funds on your wallet: {balanceData?.formatted} {balanceData?.symbol}</p>
-        {correctChain() || !chain ? "" : <p><span className="danger">Wrong chain selected, should be {donationsNetwork} chain.</span></p>}
-        <p>To donate send xDai or any ERC-20 token to <code className="cryptoAddress">{donationsAddress}</code> {' '}
-        on <span className="cryptoAddress">Gnosis</span> (formerly called <span className="cryptoAddress">Dai</span>) chain.</p>
-        <p><strong className="danger">Funds sent to this address on any other chain, including main Ethereum chain, will be irreversibly lost!</strong></p>
-        <p>To send xDai to the correct chain and the correct address you can use <span style={{display: 'inline-block'}}><DonateCryptoButton/></span> button
-          (after you buy xDai).</p>
-        <p style={{textAlign: 'left'}}>Before donating xDai, you may need to buy xDai. First create an Ethereum account by clicking {' '}
-          <q>Connect wallet</q> above and choosing any of offered wallets.
-          There are <a href="https://www.coinbase.com/how-to-buy/xdaistable" target='_blank' rel="noreferrer">several ways to buy xDai</a> {' '}
-          to your Ethereum account:</p>
-        <ul>
-          <li>(Beginners' option) <Button variant='contained' onClick={initCardAppDonation}>Buy xDai by <strong>credit card</strong> or SEPA, etc.</Button>
-            { address !== undefined ? (
-              <>{" "}<em>Because you connected your crypto wallet, purchased xDai will go to that account, you don't need to enter a crypto address
-                while purchasing. Don't forget to donate after purchasing.</em></>
-            ) : "" }
-          </li>
-          <li>(Requires some knowledge of crypto) You can first <a href="https://coinmarketcap.com/currencies/wxdai/markets/" target="markets">purchase wxDai</a> {' '}
-            and then <a href="https://app.openocean.finance/CLASSIC#/XDAI/WXDAI/XDAI" target="markets">swap it for xDai</a>.</li>
-          <li>(Requires expertise in using crypto exchanges) You can first {' '}
-            <a href="https://www.google.com/search?q=how+to+purchase+USDT" target="_blank" rel="noreferrer">buy USDT</a> and then use {' '}
-            <a href="https://ascendex.com/en/cashtrade-spottrading/usdt/xdai" target="markets">AscendEX to exchange it for xDai.</a></li>
-        </ul>
+      <div className="mainWidget ">
+        <div className="mainHeading">
+            <div className="container">
+              <h1><a href="https://science-dao.vporton.name" style={{color: 'inherit'}}>World Science DAO</a> accepts donations</h1>
+              <p>You can skip <a href="#crypto">safety, reliability, and low fees of crypto</a> and donate by a credit card:</p>
+            </div>
+        </div>
+       
+
+        <div className="container main">
+          <div className="col">
+            <DonorBox/>
+          </div>
+
+          <div className="col">
+            <h4 id="crypto">Or donate by crypto:</h4>
+            <p>Connected wallet: <span style={{display: 'inline-block', verticalAlign: 'middle'}}><Web3Button /></span></p>
+            <p>Funds on your wallet: {balanceData?.formatted} {balanceData?.symbol}</p>
+            {correctChain() || !chain ? "" : <p><span className="danger">Wrong chain selected, should be {donationsNetwork} chain.</span></p>}
+            <p>To donate send xDai or any ERC-20 token to <code className="cryptoAddress">{donationsAddress}</code> {' '}
+            on <span className="cryptoAddress">Gnosis</span> (formerly called <span className="cryptoAddress">Dai</span>) chain.</p>
+            <p><strong className="danger">Funds sent to this address on any other chain, including main Ethereum chain, will be irreversibly lost!</strong></p>
+            <p>To send xDai to the correct chain and the correct address you can use <span style={{display: 'inline-block', margin: '12px 0',}}><DonateCryptoButton/></span> button
+              (after you buy xDai).</p>
+            <p style={{textAlign: 'left'}}>Before donating xDai, you may need to buy xDai. First create an Ethereum account by clicking {' '}
+              <q>Connect wallet</q> above and choosing any of offered wallets.
+              There are <a href="https://www.coinbase.com/how-to-buy/xdaistable" target='_blank' rel="noreferrer">several ways to buy xDai</a> {' '}
+              to your Ethereum account:</p>
+            <ul>
+              <li>(Beginners' option)  <Button variant='contained' onClick={initCardAppDonation}> Buy xDai by credit card or SEPA, etc.</Button>
+                { address !== undefined ? (
+                  <>{" "}<em>Because you connected your crypto wallet, purchased xDai will go to that account, you don't need to enter a crypto address
+                    while purchasing. Don't forget to donate after purchasing.</em></>
+                ) : "" }
+              </li>
+              <li>(Requires some knowledge of crypto) You can first <a href="https://coinmarketcap.com/currencies/wxdai/markets/" target="markets">purchase wxDai</a> {' '}
+                and then <a href="https://app.openocean.finance/CLASSIC#/XDAI/WXDAI/XDAI" target="markets">swap it for xDai</a>.</li>
+              <li>(Requires expertise in using crypto exchanges) You can first {' '}
+                <a href="https://www.google.com/search?q=how+to+purchase+USDT" target="_blank" rel="noreferrer">buy USDT</a> and then use {' '}
+                <a href="https://ascendex.com/en/cashtrade-spottrading/usdt/xdai" target="markets">AscendEX to exchange it for xDai.</a></li>
+            </ul>
+          </div>
+        </div> 
       </div>
-      <div className="mainWidget">
-        <p><a href="https://science-dao.vporton.name" target="_top">Return to World Science DAO.</a></p>
-        <p><a href="https://github.com/vporton/science-dao-donate" target='_blank' rel="noreferrer">
+      <div className="main-footer">
+        <div className="container">
+          <p>
+            <a href="https://science-dao.vporton.name" target="_top">Return to World Science DAO.</a></p>
+          <p>
+          <a href="https://github.com/vporton/science-dao-donate" target='_blank' rel="noreferrer">
           <img src="github-mark.svg" width="16" height="16" alt="GitHub"/></a>
-        </p>
+          </p>
+        </div>
       </div>
     </>
   );
