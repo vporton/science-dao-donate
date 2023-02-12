@@ -188,7 +188,8 @@ function AppMainPart() {
       <div className="mainWidget ">
         <div className="mainHeading">
             <div className="container">
-              <h1><a href="https://science-dao.vporton.name" style={{color: 'inherit'}}>World Science DAO</a> accepts donations</h1>
+              <h1><a href="https://science-dao.vporton.name" style={{color: 'inherit'}}>World Science DAO</a> accepts donations |
+                Help every scientist, save science.</h1>
               <p>You can skip <a href="#crypto">safety, reliability, and low fees of crypto</a> and donate by a credit card:</p>
             </div>
         </div>
