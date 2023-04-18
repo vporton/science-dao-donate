@@ -1,16 +1,24 @@
-@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;0,1000;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900;1,1000&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 
 body {
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
+
+.mulish__font {
+  font-family: "Mulish", sans-serif;
+}
+
 .App {
   /* text-align: center; */
   background-color: #05396b;
-  display: flex; 
+  display: flex;
   flex-direction: column;
 }
 
-p , li {
+p,
+li {
   color: #fff;
 }
 
@@ -32,12 +40,12 @@ a {
 }
 
 .container {
-   width: 75%;
-   margin: auto;
-   display: flex;
-   justify-content: space-between;
-   align-items: start;
-   flex-wrap: wrap;
+  width: 75%;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  flex-wrap: wrap;
 }
 
 .container .col {
@@ -68,12 +76,11 @@ a {
   }
 }
 
-
 .mainHeading {
   /* border-bottom: 1px solid #389583; */
   margin-bottom: 1rem;
   padding: 1rem 0;
-  
+
   background-color: #063058;
 }
 
@@ -81,11 +88,10 @@ a {
   display: none;
 }
 
-
 .mainHeading h1 {
-   margin-bottom: 1rem;
-   color: #fff;
-   font-size: 32px;
+  margin-bottom: 1rem;
+  color: #fff;
+  font-size: 32px;
 }
 .mainHeading p {
   font-size: 14px;
@@ -121,10 +127,10 @@ ul li {
 }
 
 #crypto {
-    font-size: 32px;
-    margin: 0;
-    margin-bottom: 3rem;
-    color: #5cdb94;
+  font-size: 32px;
+  margin: 0;
+  margin-bottom: 3rem;
+  color: #5cdb94;
 }
 
 .css-sghohy-MuiButtonBase-root-MuiButton-root.Mui-disabled {
@@ -133,11 +139,11 @@ ul li {
   background-color: rgb(191, 191, 191) !important;
 }
 
-
 .main-footer {
   /* border-top: 1px solid #389583; */
-   padding: 1rem 0;
-   background-color: #063058;
+  padding: 1rem 0;
+  /* background-color: #063058; */
+  background-color: #232429;
 }
 .main-footer p a {
   text-decoration: none;
