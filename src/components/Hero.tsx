@@ -23,8 +23,8 @@ const Hero = ({ handleModal }: any) => {
                     <p>And Change Lives</p>
                 </div>
                 <div className="flex flex-col md:flex-col lg:flex-row items-center mb-10  ">
-                    <button onClick={handleModal} className="h-11 w-40 bg-red-700  text-white  font-montserrat font-medium  rounded transform scale-100 hover:scale-110 transition ease-out duration-700  lg:mr-6 mb-4 md:mb-6 lg:mb-0 ">
-                        Donate Now
+                    <button onClick={handleModal} className="h-11 w-40 bg-red-700  text-white  font-montserrat font-medium  rounded transform scale-100 hover:scale-110 transition ease-out duration-700  lg:mr-6 mb-4 md:mb-6 lg:mb-0 " style={{width: '200px'}}>
+                        Donate by Credit Card
                     </button>
                 </div>
             </div>
