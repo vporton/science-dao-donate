@@ -5,14 +5,14 @@ const Footer = () => {
     <div className="main-footer">
       <div className="container">
         <p>
-          <a href="https://science-dao.com" target="_top">
+          <a href="https://science-dao.org" target="_top">
             Return to World Science DAO.
           </a>
         </p>
         <p>
           <a
             className="text-xs md:text-sm hover:text-base hover:text-gray-600 text-black duration-75"
-            href="https://www.etsy.com/shop/freestateandbank"
+            href="#"
           >
             Merch for Geeks
           </a>

@@ -2,7 +2,7 @@
   "name": "science-dao-donate",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://vporton.github.io/science-dao-donate-app",
+  "homepage": "https://science-dao.org/donation-form/",
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",

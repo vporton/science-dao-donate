@@ -13,7 +13,7 @@ const Navbar: React.FC<Props> = ({ amount, handleModal, onChange }) => {
       <div>
         <a
           className="text-black text-sm md:text-2xl font-black"
-          href="https://science-dao.com"
+          href="https://science-dao.org"
         >
           World Science DAO
         </a>
@@ -24,7 +24,7 @@ const Navbar: React.FC<Props> = ({ amount, handleModal, onChange }) => {
 
       <a
         className="text-xs md:text-sm hover:text-base hover:text-gray-600 text-black duration-75"
-        href="https://www.etsy.com/shop/freestateandbank"
+        href="#"
       >
         <span className="text-red-600">See also:</span> Merch for Geeks
       </a>

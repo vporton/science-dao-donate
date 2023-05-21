@@ -7,7 +7,10 @@ const About = () => {
         <div className=" h-full w-full flex flex-col items-center justify-center">
           <div className="mb-16">
             <p className="font-montserrat text-[#111111]">
-              We are an impact DAO (cyber-charity) that develops software for all scientists.
+              Sed risus ultricies tristique nulla aliquet enim tortor at. Dictum
+              varius duis at consectetur. Faucibus in ornare quam viverra orci.
+              Sapien pellentesque habitant morbi tristique senectus et netus.
+              Nulla aliquet enim tortor at. Nunc consequat interdum varius sit.
             </p>
           </div>
           <div className="flex flex-col md:flex-row lg:flex-row items-center justify-between">
@@ -17,8 +20,9 @@ const About = () => {
               </h1>
               <p className="font-montserrat text-[#111111] text-sm leading-7 mr-2">
                 {" "}
-                We write software for science of the future.
-                We enter into the epoch of decentralized science, with scientific grants on blockchain.
+                Faucibus in ornare quam viverra orci. Sapien pellentesque
+                habitant morbi tristique senectus et netus. Nulla aliquet enim
+                tortor at.
               </p>
             </div>
             <div className="flex flex-col items-start">
@@ -26,8 +30,9 @@ const About = () => {
                 Our Vision
               </h1>
               <p className="font-montserrat text-[#111111] text-sm leading-7 mr-2">
-                Every scientist (PhD and not) should receive a just and big salary in cryptocurrency.
-                Basic science needs to be supported. Scientific publications need to be advertised.
+                Faucibus in ornare quam viverra orci. Sapien pellentesque
+                habitant morbi tristique senectus et netus. Nulla aliquet enim
+                tortor at.
               </p>
             </div>
           </div>
@@ -37,10 +42,10 @@ const About = () => {
             ABOUT US
           </h1>
           <p className="font-opensans font-bold text-[#111111] text-3xl md:text-4xl lg:text-4xl leading-relaxed mb-10 md:mb-24 lg:mb-24 ">
-            We Believe that we can save science with you. Help in our Cause
+            We Believe that We can Save More Lifes with you. Help in our Cause
           </p>
           <a
-            href="#top"
+            href="#"
             className=" flex items-center justify-center h-11 w-44 bg-red-700 transition ease-out duration-700 rounded text-white font-montserrat text-sm transform scale-100 hover:scale-110  "
           >
             {" "}
