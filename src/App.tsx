@@ -274,7 +274,7 @@ function AppMainPart() {
       <div
         className="bg-no-repeat bg-cover py-8 md:py-16 "
         style={{
-          backgroundImage: `url('https://science-dao.com/wp-content/uploads/sites/10/2021/01/cts-slider.jpg')`,
+          backgroundImage: `url('https://science-dao.org/wp-content/uploads/sites/10/2021/01/cts-slider.jpg')`,
           background: "white",
         }}
         id="top"
