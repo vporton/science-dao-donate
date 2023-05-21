@@ -40,7 +40,7 @@ const About = () => {
             We Believe that we can save science with you. Help in our Cause
           </p>
           <a
-            href="#"
+            href="#top"
             className=" flex items-center justify-center h-11 w-44 bg-red-700 transition ease-out duration-700 rounded text-white font-montserrat text-sm transform scale-100 hover:scale-110  "
           >
             {" "}

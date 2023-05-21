@@ -277,6 +277,7 @@ function AppMainPart() {
           backgroundImage: `url('https://science-dao.com/wp-content/uploads/sites/10/2021/01/cts-slider.jpg')`,
           background: "white",
         }}
+        id="top"
       >
         <div className="w-[90%] md:w-[80%] mx-auto flex flex-col text-center md:flex-row md:justify-center items-center md:items-start ">
           <div className="md:w-[50%] md:ml-32">
